@@ -1,25 +1,25 @@
 package todo
 
-type TodoCategory struct {
+type Category struct {
 	Id          int    `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 }
 
-type UsersCategory struct {
+type UsersCategories struct {
 	Id         int
 	UserId     int
 	CategoryId int
 }
 
-type TodoTask struct {
+type Task struct {
 	Id          int    `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Done        bool   `json:"done"`
 }
 
-type CategoriesTask struct {
+type CategoriesTasks struct {
 	Id         int
 	CategoryId int
 	TaskId     int
