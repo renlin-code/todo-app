@@ -8,7 +8,7 @@ import (
 
 const (
 	userTable             = "users"
-	categoriesTables      = "tables"
+	categoriesTables      = "categories"
 	usersCategoriesTable  = "users_categories"
 	tasksTable            = "tasks"
 	categoriesTasksTables = "categories_tasks"

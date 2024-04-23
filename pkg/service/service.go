@@ -12,6 +12,9 @@ type Authorization interface {
 }
 
 type Category interface {
+	Create(userId int, category todo.Category) (int, error)
+	GetAll(userId int) ([]todo.Category, error)
+	GetById(userId, categoryId int) (todo.Category, error)
 }
 
 type Task interface {
@@ -26,5 +29,6 @@ type Service struct {
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: newAuthService(repos.Authorization),
+		Category:      NewCategoryService(repos.Category),
 	}
 }
