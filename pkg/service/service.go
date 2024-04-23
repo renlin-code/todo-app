@@ -1,8 +1,12 @@
 package service
 
-import "github.com/renlin-code/todo-app/pkg/repository"
+import (
+	"github.com/renlin-code/todo-app"
+	"github.com/renlin-code/todo-app/pkg/repository"
+)
 
 type Authorization interface {
+	CreateUser(user todo.User) (int, error)
 }
 
 type Category interface {
@@ -18,5 +22,7 @@ type Service struct {
 }
 
 func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		Authorization: newAuthService(repos.Authorization),
+	}
 }
