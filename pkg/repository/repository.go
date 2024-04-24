@@ -19,6 +19,11 @@ type Category interface {
 }
 
 type Task interface {
+	Create(categoryId int, task todo.Task) (int, error)
+	GetAll(userId, categoryId int) ([]todo.Task, error)
+	GetById(userId, taskId int) (todo.Task, error)
+	Delete(userId, taskId int) error
+	Update(userId, taskId int, input todo.UpdateTaskInput) error
 }
 
 type Repository struct {
@@ -31,5 +36,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
 		Category:      NewCategoryPostgres(db),
+		Task:          NewTaskPostgres(db),
 	}
 }

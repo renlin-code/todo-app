@@ -20,6 +20,11 @@ type Category interface {
 }
 
 type Task interface {
+	Create(userId, categoryId int, task todo.Task) (int, error)
+	GetAll(userId, categoryId int) ([]todo.Task, error)
+	GetById(userId, taskId int) (todo.Task, error)
+	Delete(userId, taskId int) error
+	Update(userId, taskId int, input todo.UpdateTaskInput) error
 }
 
 type Service struct {
@@ -32,5 +37,6 @@ func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: newAuthService(repos.Authorization),
 		Category:      NewCategoryService(repos.Category),
+		Task:          NewTaskService(repos.Task, repos.Category),
 	}
 }

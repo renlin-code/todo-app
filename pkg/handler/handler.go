@@ -31,15 +31,19 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			categories.GET("/:id", h.getCategoryById)
 			categories.PUT("/:id", h.updateCategory)
 			categories.DELETE("/:id", h.deleteCategory)
+
+			tasks := categories.Group(":id/tasks")
+			{
+				tasks.POST("/", h.createTask)
+				tasks.GET("/", h.getAllTasks)
+			}
 		}
 
-		task := api.Group("/tasks")
+		tasks := api.Group("/tasks")
 		{
-			task.POST("/", h.createTask)
-			task.GET("/", h.getAllTasks)
-			task.GET("/:id", h.getTaskById)
-			task.PUT("/:id", h.updateTask)
-			task.DELETE("/:id", h.deleteTask)
+			tasks.GET("/:id", h.getTaskById)
+			tasks.PUT("/:id", h.updateTask)
+			tasks.DELETE("/:id", h.deleteTask)
 		}
 	}
 
