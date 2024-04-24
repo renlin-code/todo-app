@@ -24,3 +24,14 @@ func (s *CategoryService) GetAll(userId int) ([]todo.Category, error) {
 func (s *CategoryService) GetById(userId, categoryId int) (todo.Category, error) {
 	return s.repo.GetById(userId, categoryId)
 }
+
+func (s *CategoryService) Update(userId, categoryId int, input todo.UpdateCategoryInput) error {
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(userId, categoryId, input)
+}
+
+func (s *CategoryService) Delete(userId, categoryId int) error {
+	return s.repo.Delete(userId, categoryId)
+}

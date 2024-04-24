@@ -1,5 +1,7 @@
 package todo
 
+import "errors"
+
 type Category struct {
 	Id          int    `json:"id" db:"id"`
 	Title       string `json:"title" db:"title" binding:"required"`
@@ -23,4 +25,16 @@ type CategoriesTasks struct {
 	Id         int
 	CategoryId int
 	TaskId     int
+}
+
+type UpdateCategoryInput struct {
+	Title       *string `json:"title"`
+	Description *string `json:"description"`
+}
+
+func (i UpdateCategoryInput) Validate() error {
+	if i.Title == nil && i.Description == nil {
+		return errors.New("empty update structure")
+	}
+	return nil
 }

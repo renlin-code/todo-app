@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/renlin-code/todo-app"
@@ -62,4 +63,49 @@ func (r *CategoryPostgres) GetById(userId, categoryId int) (todo.Category, error
 	err := r.db.Get(&category, query, userId, categoryId)
 
 	return category, err
+}
+
+func (r *CategoryPostgres) Update(userId, categoryId int, input todo.UpdateCategoryInput) error {
+	setValues := make([]string, 0)
+	args := make([]interface{}, 0)
+	argId := 1
+
+	if input.Title != nil {
+		setValues = append(setValues, fmt.Sprintf("title=$%d", argId))
+		args = append(args, *input.Title)
+		argId++
+	}
+
+	if input.Description != nil {
+		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+		args = append(args, *input.Description)
+		argId++
+	}
+
+	setQuery := strings.Join(setValues, ", ")
+
+	var id int
+	query := fmt.Sprintf("UPDATE %s ct SET %s FROM %s uct WHERE ct.id = uct.category_id AND uct.category_id = $%d AND uct.user_id = $%d RETURNING ct.id", categoriesTables, setQuery, usersCategoriesTable, argId, argId+1)
+
+	args = append(args, categoryId, userId)
+
+	row := r.db.QueryRow(query, args...)
+
+	if err := row.Scan(&id); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *CategoryPostgres) Delete(userId, categoryId int) error {
+	var id int
+	query := fmt.Sprintf("DELETE FROM %s ct USING %s uct WHERE ct.id = uct.category_id AND uct.user_id = $1 AND uct.category_id = $2 RETURNING ct.id", categoriesTables, usersCategoriesTable)
+
+	row := r.db.QueryRow(query, userId, categoryId)
+	if err := row.Scan(&id); err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -15,6 +15,8 @@ type Category interface {
 	Create(userId int, category todo.Category) (int, error)
 	GetAll(userId int) ([]todo.Category, error)
 	GetById(userId, categoryId int) (todo.Category, error)
+	Update(userId, categoryId int, input todo.UpdateCategoryInput) error
+	Delete(userId, categoryId int) error
 }
 
 type Task interface {

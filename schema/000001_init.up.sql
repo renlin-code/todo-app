@@ -7,8 +7,8 @@ CREATE TABLE users (
 
 CREATE TABLE categories (
     id SERIAL NOT NULL UNIQUE,
-    title VARCHAR(255) NOT NULL,
-    description VARCHAR(255) UNIQUE
+    title VARCHAR(255) NOT NULL UNIQUE,
+    description VARCHAR(255)
 );
 
 CREATE TABLE users_categories (
