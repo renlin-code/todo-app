@@ -16,6 +16,16 @@ import (
 	"github.com/spf13/viper"
 )
 
+// @title Todo App API
+// @version 1.0
+// @description API Server for Todo Application
+
+// @host localhost:8080
+// @BasePath /
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 	if err := initConfig(); err != nil {
@@ -61,7 +71,6 @@ func main() {
 	if err := db.Close(); err != nil {
 		logrus.Errorf("Error occurred on db connection while closing: %s", err.Error())
 	}
-
 }
 
 func initConfig() error {

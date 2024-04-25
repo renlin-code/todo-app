@@ -8,6 +8,19 @@ import (
 	"github.com/renlin-code/todo-app"
 )
 
+// @Summary Create todo Task
+// @Security ApiKeyAuth
+// @Tags tasks
+// @Description create todo task
+// @ID create-task
+// @Accept  json
+// @Produce  json
+// @Param input body todo.Task true "task info"
+// @Success 200 {integer} integer 1
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/categories/:id/tasks [post]
 func (h *Handler) createTask(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -41,6 +54,18 @@ type getAllTasksResponse struct {
 	Data []todo.Task `json:"data"`
 }
 
+// @Summary Get All Tasks
+// @Security ApiKeyAuth
+// @Tags tasks
+// @Description get all tasks
+// @ID get-all-tasks
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} getAllTasksResponse
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/categories/:id/tasks [get]
 func (h *Handler) getAllTasks(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -66,6 +91,18 @@ func (h *Handler) getAllTasks(c *gin.Context) {
 
 }
 
+// @Summary Get Task By Id
+// @Security ApiKeyAuth
+// @Tags tasks
+// @Description get task by id
+// @ID get-task-by-id
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} todo.Task
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/tasks/:id [get]
 func (h *Handler) getTaskById(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -87,6 +124,18 @@ func (h *Handler) getTaskById(c *gin.Context) {
 	c.JSON(http.StatusOK, task)
 }
 
+// @Summary Update Task
+// @Security ApiKeyAuth
+// @Tags tasks
+// @Description update task
+// @ID update-task
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} statusResponse
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/task/:id [put]
 func (h *Handler) updateTask(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -117,6 +166,18 @@ func (h *Handler) updateTask(c *gin.Context) {
 
 }
 
+// @Summary Delete Task
+// @Security ApiKeyAuth
+// @Tags tasks
+// @Description delete task
+// @ID delete-task
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} statusResponse
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/tasks/:id [delete]
 func (h *Handler) deleteTask(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
